@@ -34,6 +34,11 @@ stdenv.mkDerivation {
           CMakeLists.txt
     # glibc 2.32 removed sysctl.h
     sed -i '/sys\/sysctl.h/g' libs/iovm/source/IoSystem.c
+    # Bind Libs STATIC to avoid a segfault when relinking
+    sed -i 's/basekit SHARED/basekit STATIC/' libs/basekit/CMakeLists.txt
+    sed -i 's/garbagecollector SHARED/garbagecollector STATIC/' libs/garbagecollector/CMakeLists.txt
+    sed -i 's/coroutine SHARED/coroutine STATIC/' libs/coroutine/CMakeLists.txt
+
   '';
 
   # for gcc5; c11 inline semantics breaks the build
