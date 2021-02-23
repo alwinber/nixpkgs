@@ -32,6 +32,8 @@ stdenv.mkDerivation {
     sed -ie \
           "s/add_subdirectory(addons)/#add_subdirectory(addons)/g" \
           CMakeLists.txt
+    # glibc 2.32 removed sysctl.h
+    sed -i '/sys\/sysctl.h/g' libs/iovm/source/IoSystem.c
   '';
 
   # for gcc5; c11 inline semantics breaks the build
